@@ -1,0 +1,44 @@
+@page "/fetchdata"
+@using Factures.Shared
+@inject HttpClient Http
+@inject IBusinessData data
+
+<h1>Factures</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.factures</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private BusinessData[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<BusinessData[]>("BusinessData");
+    }
+
+}
